@@ -46,16 +46,16 @@ sudo apt-add-repository 'deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-rep
 sudo apt-get update
 sudo apt-get install -y codium
 
-#install vscode
-printf "${RED}Installing VSCode${NC}"
+#install vscode and vscode-insiders
+printf "${RED}Installing VSCode and VSCode Insiders${NC}"
 sudo apt-get update
-sudo apt-get install -y curl apt-transport-https
-curl -sSL https://packages.microsoft.com/keys/microsoft.asc -o microsoft.asc
-sudo apt-key add microsoft.asc
-rm microsoft.asc
-echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"  | sudo tee /etc/apt/sources.list.d/vscode.list
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -o root -g root -m 644 packages.microsoft.gpg /usr/share/keyrings/
+rm ./packages.microsoft.gpg
+sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+sudo apt-get install -y apt-transport-https
 sudo apt-get update
-sudo apt-get install -y code
+sudo apt-get install code code-insiders
 
 #install amazon-corretto-jdk
 printf "${RED}Installing Amazon-Corretto OpenJDK Version 11${NC}"
@@ -106,8 +106,14 @@ printf "${RED}.zshrc has been Copied ${NC}"
 cp ./shell-config-files/.profile ~/
 printf "${RED}.profile has been Copied ${NC}"
 
+#copy my vscode setting to ~/.config/code
+printf "${RED}Coping vscode Settings${NC}"
+cp ./.settings ~/.config/Code/User/settings.json
+cp ./.settings ~/.config/Code\ -\ Insiders/User/settings.json
+cp ./.settings ~/.config/VSCodium/User/settings.json
+
 #install my code extentions
-printf "${RED}Installing code-insiders extensions${NC}"
+printf "${RED}Installing VSCode Insiders extensions${NC}"
 while IFS= read -r line; do
     printf "${RED}Installing $line for code-insiders ${NC}\n"
     code-insiders --install-extension $line
@@ -119,7 +125,7 @@ while IFS= read -r line; do
     codium --install-extension $line
 done < ./code-extensions/extensions.txt
 
-#while IFS= read -r line; do
-#    printf "${RED}Installing $line for code ${NC}\n"
-#    code-insiders --install-extension $line
-#done < ./code-extensions/extensions.txt
+while IFS= read -r line; do
+    printf "${RED}Installing $line for code ${NC}\n"
+    code --install-extension $line
+done < ./code-extensions/extensions.txt
