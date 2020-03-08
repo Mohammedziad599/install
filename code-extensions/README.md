@@ -1,4 +1,5 @@
-#Those are the Extensions that i have
+# Those are the Extensions that i have
+
 liviuschera.noctis
 appulate.filewatcher
 ms-python.python
