@@ -95,7 +95,7 @@ sudo apt-get update
 sudo apt-get install -y nodejs
 
 #install JDownloader 2
-printf "${RED}Installing JDownloader it will also install pv ,jq and openssl${NC}\n"
+printf "${RED}Installing JDownloader${NC}\n"
 sh ./JD2Setup_x64.sh
 
 #copy my .bashrc ,.zshrc and .profile to the home dir
