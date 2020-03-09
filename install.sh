@@ -94,6 +94,11 @@ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get update
 sudo apt-get install -y nodejs
 
+#install JDownloader 2
+printf "${RED}Installing JDownloader it will also install pv ,jq and openssl${NC}\n"
+./JD2Setup_x64.sh
+rm JD2Setup_x64.sh
+
 #copy my .bashrc ,.zshrc and .profile to the home dir
 printf "${RED}Copy My .bashrc ,.zshrc and .profile to the Home Directory${NC}\n"
 
